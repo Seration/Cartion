@@ -60,6 +60,17 @@ internal static class HostingExtensions
                 options.ClientSecret = "copy client secret from Google here";
             });
 
+        builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
         return builder.Build();
     }
 
@@ -72,9 +83,11 @@ internal static class HostingExtensions
             app.UseDeveloperExceptionPage();
         }
 
+
         app.UseStaticFiles();
         app.UseRouting();
         app.UseIdentityServer();
+        app.UseCors("AllowAll");
         app.UseAuthorization();
 
         app.MapRazorPages()

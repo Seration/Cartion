@@ -4,6 +4,8 @@ using Polly;
 using Polly.Extensions.Http;
 using SearchService;
 using MassTransit;
+using System.Net;
+using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,20 +47,15 @@ app.MapControllers();
 
 app.Lifetime.ApplicationStarted.Register(async () =>
 {
-    try
-    {
-        await DbInitiallizer.InitDb(app);
-    }
-    catch (System.Exception e)
-    {
-        Console.WriteLine(e);
-    }
+    await Policy.Handle<TimeoutException>()
+        .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(10))
+        .ExecuteAndCaptureAsync(async () =>  await DbInitializer.InitDb(app));
 });
 
 app.Run();
 
-static IAsyncPolicy<HttpResponseMessage> GetPolicy() =>
-    HttpPolicyExtensions
-    .HandleTransientHttpError()
-    .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-    .WaitAndRetryForeverAsync(_ => TimeSpan.FromSeconds(3));
+static IAsyncPolicy<HttpResponseMessage> GetPolicy()
+    => HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+        .WaitAndRetryForeverAsync(_ => TimeSpan.FromSeconds(3));

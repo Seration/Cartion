@@ -21,7 +21,7 @@ builder.Services.AddMassTransit(x =>
     //ve rabbitmq ayaga kalkana kadar araliklarla onu gondermeye calisiyor
     x.AddEntityFrameworkOutbox<AuctionDbContext>(o =>
     {
-        o.QueryDelay = TimeSpan.FromSeconds(10);
+        o.QueryDelay = TimeSpan.FromSeconds(60);
         o.UsePostgres();
         o.UseBusOutbox();
     });
