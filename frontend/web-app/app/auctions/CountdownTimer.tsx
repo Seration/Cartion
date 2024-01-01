@@ -1,54 +1,51 @@
-"use client";
+'use client'
 
-import React from "react";
-import Countdown, { zeroPad } from "react-countdown";
-import { RxLapTimer } from "react-icons/rx";
+import { useBidStore } from '@/hooks/useBidStore';
+import { usePathname } from 'next/navigation';
+import React from 'react'
+import Countdown, { zeroPad } from 'react-countdown';
 
 type Props = {
   auctionEnd: string;
-};
+}
 
-const renderer = ({
-  days,
-  hours,
-  minutes,
-  seconds,
-  completed,
-}: {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  completed: boolean;
-}) => {
+const renderer = ({ days, hours, minutes, seconds, completed }:
+  { days: number, hours: number, minutes: number, seconds: number, completed: boolean }) => {
   return (
-    <div
-      className={`
-    border-1 border-white text-white py-1 px-2 rounded-lg flex justify-center
-    ${
-      completed
-        ? "bg-red-600"
-        : days === 0 && hours < 10
-        ? "bg-amber-600"
-        : "bg-gray-900"
-    }`}
-    >
+    <div className={`
+                border-2 
+                border-white 
+                text-white py-1 px-2 
+                rounded-lg flex justify-center
+                ${completed ?
+        'bg-red-600' : (days === 0 && hours < 10)
+          ? 'bg-amber-600' : 'bg-green-600'}
+            `}>
       {completed ? (
-        <span>Auciton Finished</span>
+        <span>Auction finished</span>
       ) : (
-        <span suppressHydrationWarning={true} className="flex text-sm">
-          <RxLapTimer size={12} className="mt-1 mr-1" /> {zeroPad(days)}:
-          {zeroPad(hours)}:{zeroPad(minutes)}:{zeroPad(seconds)}
+        <span suppressHydrationWarning={true}>
+          {zeroPad(days)}:{zeroPad(hours)}:{zeroPad(minutes)}:{zeroPad(seconds)}
         </span>
       )}
     </div>
-  );
+  )
 };
 
+
 export default function CountdownTimer({ auctionEnd }: Props) {
+  const setOpen = useBidStore(state => state.setOpen);
+  const pathname = usePathname();
+
+  function auctionFinished() {
+    if (pathname.startsWith('/auctions/details')) {
+      setOpen(false)
+    }
+  }
+
   return (
     <div>
-      <Countdown date={auctionEnd} renderer={renderer}></Countdown>
+      <Countdown date={auctionEnd} renderer={renderer} onComplete={auctionFinished} />
     </div>
-  );
+  )
 }
