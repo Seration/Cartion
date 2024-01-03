@@ -20,7 +20,7 @@ export default function Logo() {
       className="cursor-pointer flex items-center gap-2 text-3xl font-semibold text-slate-600"
     >
       <IoCarSport className="text-slate-600" size={34}></IoCarSport>
-      <div>Carties Auctions</div>
+      <div>Cartion Auctions</div>
     </div>
   );
 }
