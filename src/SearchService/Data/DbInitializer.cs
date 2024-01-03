@@ -23,18 +23,11 @@ public class DbInitializer
 
         var httpClient = scope.ServiceProvider.GetRequiredService<AuctionSvcHttpClient>();
 
-        try
-        {
-            var items = await httpClient.GetItemsForSearchDb();
+        var items = await httpClient.GetItemsForSearchDb();
 
-            Console.WriteLine("***************************************************");
-            Console.WriteLine(items.Count + " returned from the auction service");
-            if (items.Count > 0) await DB.SaveAsync(items);
-        }
-        catch (System.Exception ex)
-        {
-            Console.WriteLine("***************************************************");
-            Console.WriteLine(ex.Message);
-        }
+        Console.WriteLine("***************************************************");
+        Console.WriteLine(items.Count + " returned from the auction service");
+        if (items.Count > 0) await DB.SaveAsync(items);
+
     }
 }

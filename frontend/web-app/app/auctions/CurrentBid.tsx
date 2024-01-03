@@ -7,7 +7,7 @@ type Props = {
 
 export default function CurrentBid({ amount, reservePrice }: Props) {
     const text = amount ? '$' + amount : 'No bids';
-    const color = amount ? amount > reservePrice ? 'bg-green-600' : 'bg-amber-600' : 'bg-red-600'
+    const color = amount ? amount > reservePrice ? 'bg-green-600' : 'bg-amber-600' : 'bg-cyan-700'
 
     return (
         <div className={`
