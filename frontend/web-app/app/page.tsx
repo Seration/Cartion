@@ -13,11 +13,11 @@ export default function Home() {
         ></Image>
       </div> */}
 
-      <div className="mt-4 mb-2">
+      {/* <div className="mt-4 mb-2">
         <span className="font-semibold">
           Current Bids
         </span>
-      </div>
+      </div> */}
 
       <Listings />
     </div>

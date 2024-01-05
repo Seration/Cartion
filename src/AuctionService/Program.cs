@@ -48,7 +48,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     opt.TokenValidationParameters.ValidateAudience = false;
     opt.TokenValidationParameters.NameClaimType = "username";
 });
-
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
 builder.Services.AddGrpc();
 
 var app = builder.Build();
@@ -71,3 +71,5 @@ catch (System.Exception e)
 }
 
 app.Run();
+
+public partial class Program { }

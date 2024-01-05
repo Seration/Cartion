@@ -28,12 +28,12 @@ const orderButtons = [
 
 const filterButtons = [
   {
-    label: "Live Auctions",
+    label: "Live",
     icon: GiFlame,
     value: "live",
   },
   {
-    label: "Ending < 6 hours",
+    label: "Ending",
     icon: GiFinishLine,
     value: "endingSoon",
   },

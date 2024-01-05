@@ -84,9 +84,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
-      - ClientApp=http://app.carties.com
+      - ClientApp=http://app.cartion.com
       - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=Sercan23;Database=identity
-      - VIRTUAL_HOST=id.carties.com
+      - VIRTUAL_HOST=id.cartion.com
+      - ClientSecret=somethingreallyreallysecret
     depends_on:
       - postgres
     networks:
@@ -100,8 +101,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
-      - ClientApp=https://app.carties.com
-      - VIRTUAL_HOST=api.carties.com
+      - ClientApp=https://app.cartion.com
+      - VIRTUAL_HOST=api.cartion.com
     networks:
       custom:
   bid-svc:
@@ -139,22 +140,22 @@ services:
     networks:
       custom:
   web-app:
-    image:  seration/web-app
+    image: seration/web-app
     build:
       context: .
       dockerfile: frontend/web-app/Dockerfile
     volumes:
       - /var/lib/web/data
     extra_hosts:
-    - id.carties.com:10.5.0.200
+      - id.cartion.com:10.5.0.200
     environment:
-      - NEXTAUTH_SECRET=somethingreallysecret
-      - NEXTAUTH_URL=http://app.carties.com
+      - NEXTAUTH_SECRET=somethingreallyreallysecret
+      - NEXTAUTH_URL=http://app.cartion.com
       - NEXTAUTH_URL_INTERNAL=http://web-app:3000
       - API_URL=http://gateway-svc/
-      - ID_URL=http://id.carties.com
+      - ID_URL=http://id.cartion.com
       - NEXT_PUBLIC_NOTIFY_URL=http://gateway-svc/notifications
-      - VIRTUAL_HOST=app.carties.com
+      - VIRTUAL_HOST=app.cartion.com
       - VIRTUAL_PORT=3000
     networks:
       custom:
