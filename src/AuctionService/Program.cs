@@ -18,9 +18,6 @@ builder.Services.AddDbContext<AuctionDbContext>(opt =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddMassTransit(x =>
 {
-    //ef ile calilsaan massTransit ozelligi. RabbitMQ cokunce
-    //RabbitMq ya gidecek gitmesi gereken mesaji db ye kayit ediyor
-    //ve rabbitmq ayaga kalkana kadar araliklarla onu gondermeye calisiyor
     x.AddEntityFrameworkOutbox<AuctionDbContext>(o =>
     {
         o.QueryDelay = TimeSpan.FromSeconds(60);
